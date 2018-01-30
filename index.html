@@ -17,18 +17,23 @@
 <body>
   <h2>GeoArtist</h2>
 
-  <p>
-    *Enter a country by the ISO 3166-1 country names standard.
-    This will produce the top Last.FM artist for that country and a nifty GIF.
-  </p>
+  <p>*Enter a country. This will produce the top Last.FM artist for that country and a nifty GIF.</p>
 
-  <input type="text" id="countryCode" />
+  <input type="text" id="country" />
   <button type="button" id="search" >Submit</button>
 
-  <script>
-  function functionName() {
+  <p id="topArtist">No top artist.</p>
+  <p id="gif"> </p>
 
-  }
+  <script>
+  $('#search').click(function(e) {
+     e.preventDefault();
+     var country = $('#country').val();
+     $.getJSON('https://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=' + country + '&api_key=7124803950526c7c71862f498e2fd9b5&format=json&limit=1', function(json){
+        var artist = json[topartists];
+        $("#topArtist").html("Top artist in " + country + " is " + artist);
+     });
+  });
   </script>
 </body>
 
