@@ -9,6 +9,7 @@
   h2, h4, p {text-align: center;}
   h2 {text-decoration: underline}
   h4 {color: red}
+  form {margin: 0 auto; width:250px;}
   </style>
 </head>
 
@@ -17,8 +18,15 @@
 
   <p>*Enter a country. This will produce the top Last.FM artist for that country and a nifty GIF.*</p>
 
-  <input type="text" id="input" />
-  <button type="button" id="search" >Submit</button>
+  <p>
+    <a href="https://www.last.fm/api">Last.FM API</a>
+    <a href="https://developers.giphy.com/">Giphy API</a>
+  </p>
+
+  <form>
+    <input type="text" id="input" />
+    <button type="button" id="search" >Submit</button>
+  </form>
 
   <h4 id="topArtistPlaceholder"></h4>
   <p id="gifPlaceholder"> </p>
@@ -27,11 +35,11 @@
   $('#search').click(function(e) {
      e.preventDefault();
      var country = $('#input').val();
-     
+
      $.getJSON('https://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=' + country + '&api_key=7124803950526c7c71862f498e2fd9b5&format=json', function(json){
         var artist = json.topartists.artist[0].name;
         $("#topArtistPlaceholder").html("Last.FM's top artist in " + country + " is " + artist);
-        
+
         $.getJSON('http://api.giphy.com/v1/gifs/search?q=' + artist + '&limit=50&api_key=Y5mreBbC4Zc4c6lV2c0jR9PQyiSf548E', function(json) {
           var gif = "<img src= '" + json.data[Math.floor(Math.random() * 50)].images.original['url'] + "'></img>";
           $("#gifPlaceholder").html(gif);
